@@ -16,8 +16,8 @@ use crate::tok;
 use crate::util::Sep;
 use atty;
 use lalrpop_util::ParseError;
-use tiny_keccak::Sha3;
 use term;
+use tiny_keccak::Sha3;
 
 use std::fs;
 use std::io::{self, BufRead, Read, Write};
@@ -44,10 +44,8 @@ fn hash_file(file: &Path) -> io::Result<String> {
     let mut file = fs::File::open(&file)?;
     let mut file_bytes = Vec::new();
     file.read_to_end(&mut file_bytes).unwrap();
-    
     let mut sha3 = Sha3::v256();
     sha3.update(&file_bytes);
-    
     let mut output = [0u8; 32];
     sha3.finalize(&mut output);
 
@@ -128,7 +126,8 @@ fn process_file_into(
         // easy access to this information pervasively in the
         // low-level LR(1) and grammar normalization code. This is
         // particularly useful for error-reporting.
-        let _tls = Tls::install(session.clone(), file_text.clone());
+        // memoo: Commented out because it is not necessary for parser generation.
+        // let _tls = Tls::install(session.clone(), file_text.clone());
 
         // Do the LALRPOP processing itself and write the resulting
         // buffer into a file. We use a buffer so that if LR(1)
